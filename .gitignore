@@ -1,0 +1,11 @@
+# DEPENDENCIES
+node_modules
+
+# DATABASE
+db/*.db
+
+# ENVIRONMENTS
+.env
+
+# BUILD
+build
