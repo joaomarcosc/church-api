@@ -6,6 +6,10 @@ db/*.db
 
 # ENVIRONMENTS
 .env
+.env.test
 
 # BUILD
 build
+
+# TESTS
+coverage

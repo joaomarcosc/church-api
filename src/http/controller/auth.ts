@@ -1,22 +1,21 @@
 import { loginSchema } from "@/schemas/auth";
-import { loginUserUseCase } from "@/use-cases/login-user";
+import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-export async function loginController(request: FastifyRequest, reply: FastifyReply) {
-  const { password, email } = loginSchema.parse(request.body);
+export async function authController(request: FastifyRequest, reply: FastifyReply) {
+  const body = loginSchema.parse(request.body);
 
   try {
-    await loginUserUseCase({
-      email,
-      password,
-    });
+    const authenticateUseCase = makeAuthenticateUseCase();
+
+    await authenticateUseCase.execute(body);
   } catch (_) {
     reply.status(401).send({
       message: "Unauthorized",
     });
   }
 
-  const token = await reply.jwtSign({ password, email });
+  const token = await reply.jwtSign(body);
 
   reply.setCookie("access_token", token, {
     path: "/",
