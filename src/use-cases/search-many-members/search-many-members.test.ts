@@ -2,11 +2,11 @@ import type { Church } from "@/repositories/church-repository";
 import { InMemoryChurchRepository } from "@/repositories/in-memory/in-memory-church-repository";
 import { InMemoryMembersRepository } from "@/repositories/in-memory/in-memory-member";
 import { beforeEach, describe, expect, it } from "vitest";
-import { ListMembersUseCase } from "./list-members";
+import { SearchManyMembersUseCase } from "./search-many-members";
 
 let inMemoryMembersRepository: InMemoryMembersRepository;
 let inMemoryChurchRepository: InMemoryChurchRepository;
-let sut: ListMembersUseCase;
+let sut: SearchManyMembersUseCase;
 let church: Church;
 
 describe("List members use case", () => {
@@ -21,7 +21,7 @@ describe("List members use case", () => {
       phone: "opopa",
     });
 
-    sut = new ListMembersUseCase(inMemoryMembersRepository, inMemoryChurchRepository);
+    sut = new SearchManyMembersUseCase(inMemoryMembersRepository, inMemoryChurchRepository);
   });
 
   it("Should be to list members when filter by name", async () => {
