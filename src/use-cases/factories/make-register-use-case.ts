@@ -1,9 +1,11 @@
-import { KyselyUsersRepository } from "@/repositories/kysely/kysely-users-repository";
-import { RegisterUserUseCase } from "../register-user/register-user";
+import { KyselyChurchRepository } from "@/repositories/kysely/kysely-church-repository";
+import { KyselyMembersRepository } from "@/repositories/kysely/kysely-members-repository";
+import { RegisterMemberUseCase } from "../register-member/register-member";
 
 export function makeRegisterUseCase() {
-  const usersRepository = new KyselyUsersRepository();
-  const registerUseCase = new RegisterUserUseCase(usersRepository);
+  const membersRepository = new KyselyMembersRepository();
+  const churchRepository = new KyselyChurchRepository();
+  const registerUseCase = new RegisterMemberUseCase(membersRepository, churchRepository);
 
   return registerUseCase;
 }

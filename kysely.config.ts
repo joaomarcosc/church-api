@@ -6,4 +6,7 @@ export default defineConfig({
   migrations: {
     migrationFolder: "db/migrations",
   },
+  seeds: {
+    seedFolder: "db/seeds",
+  },
 });

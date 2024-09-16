@@ -1,35 +1,40 @@
-import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-register-user";
-import bcrypt from "bcrypt";
+import { InMemoryMembersRepository } from "@/repositories/in-memory/in-memory-member";
 import { beforeEach, describe, expect, it } from "vitest";
 import { ResourceNotFoundError } from "../errors/resource-not-found";
-import { GetUserProfileUseCase } from "./get-user-profile";
+import { GetMemberProfileUseCase } from "./get-user-profile";
 
-let inMemoryUsersRepository: InMemoryUsersRepository;
-let sut: GetUserProfileUseCase;
+let inMemoryMembersRepository: InMemoryMembersRepository;
+let sut: GetMemberProfileUseCase;
 
-describe("Get user profile use case", () => {
+describe("Get member profile use case", () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository();
-    sut = new GetUserProfileUseCase(inMemoryUsersRepository);
+    inMemoryMembersRepository = new InMemoryMembersRepository();
+    sut = new GetMemberProfileUseCase(inMemoryMembersRepository);
   });
 
-  it("should be able to get user profile", async () => {
-    const createdUser = await inMemoryUsersRepository.create({
+  it("should be able to get member profile", async () => {
+    const createdMember = await inMemoryMembersRepository.create({
       name: "teste",
-      email: "teste@teste.com",
-      password: await bcrypt.hash("123456", 6),
+      address: "algum lugar",
+      birthDate: new Date(),
+      joinDate: new Date(),
+      phone: "",
+      churchId: "1",
     });
 
-    const { user } = await sut.axecute(createdUser.id);
+    const { member } = await sut.axecute(createdMember.id);
 
-    expect(user.name).toEqual("teste");
+    expect(member.name).toEqual("teste");
   });
 
-  it("should not be able to get user profile with wrong userId", async () => {
-    await inMemoryUsersRepository.create({
+  it("should not be able to get member profile with wrong memberId", async () => {
+    await inMemoryMembersRepository.create({
       name: "teste",
-      email: "teste@teste.com",
-      password: await bcrypt.hash("123456", 6),
+      address: "algum lugar",
+      birthDate: new Date(),
+      joinDate: new Date(),
+      phone: "",
+      churchId: "1",
     });
 
     expect(sut.axecute("123456")).rejects.toBeInstanceOf(ResourceNotFoundError);
