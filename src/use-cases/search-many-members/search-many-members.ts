@@ -2,7 +2,7 @@ import type { ChurchRepository } from "@/repositories/church-repository";
 import type { Member, MembersRepository } from "@/repositories/member-repository";
 import { ResourceNotFoundError } from "../errors/resource-not-found";
 
-interface ListMembersUseCaseRequest {
+interface SearchManyMembersUseCaseRequest {
   churchId: string;
   query: string;
   perPage: number;
@@ -10,11 +10,11 @@ interface ListMembersUseCaseRequest {
   order: "asc" | "desc";
 }
 
-interface ListMembersUseCaseResponse {
+interface SearchManyMembersUseCaseResponse {
   members?: Member[];
 }
 
-export class ListMembersUseCase {
+export class SearchManyMembersUseCase {
   constructor(
     private membersRepository: MembersRepository,
     private churchRepository: ChurchRepository,
@@ -26,7 +26,7 @@ export class ListMembersUseCase {
     page,
     perPage,
     query,
-  }: ListMembersUseCaseRequest): Promise<ListMembersUseCaseResponse> {
+  }: SearchManyMembersUseCaseRequest): Promise<SearchManyMembersUseCaseResponse> {
     const church = await this.churchRepository.findById({ id: churchId });
 
     if (!church) {

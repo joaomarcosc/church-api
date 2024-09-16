@@ -1,6 +1,6 @@
 import { memberSchema } from "@/schemas/member";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists";
-import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
+import { makeRegisterMemberUseCase } from "@/use-cases/factories/make-register-member-use-case";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export class MemberController {
@@ -8,7 +8,7 @@ export class MemberController {
     const body = memberSchema.parse(req.body);
 
     try {
-      const registerUseCase = makeRegisterUseCase();
+      const registerUseCase = makeRegisterMemberUseCase();
 
       await registerUseCase.execute(body);
     } catch (error) {
