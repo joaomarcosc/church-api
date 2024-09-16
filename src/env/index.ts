@@ -10,24 +10,14 @@ if (process.env.NODE_ENV !== "test") {
   config();
 }
 
-const databaseSchemas = {
-  DATABASE_HOST: z.string().min(1, { message: "DATABASE_HOST is required" }),
-  DATABASE_USERNAME: z
-    .string()
-    .min(1, { message: "DATABASE_USERNAME is required" }),
-  DATABASE_PASSWORD: z
-    .string()
-    .min(1, { message: "DATABASE_PASSWORD is required" }),
-  DATABASE_NAME: z.string().min(1, { message: "DATABASE_NAME is required" }),
-  DATABASE_PORT: z.coerce.number().default(5432),
+const databaseSchema = {
+  DATABASE_URL: z.string().min(1, { message: "DATABASE_URL is required" }),
 };
 
 const envSchema = z.object({
-  ...databaseSchemas,
+  ...databaseSchema,
   PORT: z.coerce.number().default(3333),
-  NODE_ENV: z
-    .enum(["development", "staging", "test", "production"])
-    .default("development"),
+  NODE_ENV: z.enum(["development", "staging", "test", "production"]).default("development"),
   SECRET_KEY: z.string().min(1),
 });
 

@@ -4,7 +4,15 @@ export interface CreateUserParams {
   password: string;
 }
 
-export interface UserReturn {
+export interface FindByEmailParams {
+  email: string;
+}
+
+export interface FindByIdParams {
+  userId: string;
+}
+
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -14,6 +22,7 @@ export interface UserReturn {
 }
 
 export interface UsersRepository {
-  create(data: CreateUserParams): Promise<UserReturn | undefined>;
-  findByEmail(email: string): Promise<UserReturn | undefined>;
+  create(data: CreateUserParams): Promise<User | undefined>;
+  findByEmail(email: FindByEmailParams): Promise<User | undefined>;
+  findById(userId: FindByIdParams): Promise<User | undefined>;
 }

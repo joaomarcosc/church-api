@@ -4,11 +4,7 @@ import { Pool } from "pg";
 import { env } from "./env";
 
 const pool = new Pool({
-  user: env.DATABASE_USERNAME,
-  host: env.DATABASE_HOST,
-  database: env.DATABASE_NAME,
-  password: env.DATABASE_PASSWORD,
-  port: env.DATABASE_PORT,
+  connectionString: env.DATABASE_URL,
 });
 
 const dialect = new PostgresDialect({
