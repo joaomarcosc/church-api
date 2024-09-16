@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const userSchema = z.object({
+export const memberSchema = z.object({
   email: z
     .string({
       required_error: "Email is required",
@@ -8,7 +8,9 @@ export const userSchema = z.object({
     })
     .email(),
   name: z.string(),
-  password: z.string({
-    required_error: "Password is required",
-  }),
+  address: z.string(),
+  phone: z.string(),
+  birthDate: z.date(),
+  joinDate: z.date(),
+  churchId: z.string(),
 });

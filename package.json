@@ -12,6 +12,8 @@
     "migrate:create": "kysely migrate:make",
     "migrate:rollback": "kysely migrate:rollback --all",
     "migrate:run": "kysely migrate:latest",
+    "seed:create": "kysely seed:make",
+    "seed:run": "kysely seed:run",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
