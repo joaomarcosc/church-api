@@ -7,14 +7,14 @@ interface AuthenticateChurchUseCaseRequest {
   password: string;
 }
 
-interface AuthenticateChurchUseCaseResposne {
+interface AuthenticateChurchUseCaseResponse {
   church: Church;
 }
 
 export class AuthenticateChurchUseCase {
   constructor(private churchRepository: ChurchRepository) {}
 
-  async execute(data: AuthenticateChurchUseCaseRequest): Promise<AuthenticateChurchUseCaseResposne> {
+  async execute(data: AuthenticateChurchUseCaseRequest): Promise<AuthenticateChurchUseCaseResponse> {
     const church = await this.churchRepository.findByEmail({ email: data.email });
 
     if (!church) {

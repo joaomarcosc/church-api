@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const memberSchema = z.object({
+export const createMemberSchema = z.object({
   email: z
     .string({
       required_error: "Email is required",
@@ -12,5 +12,4 @@ export const memberSchema = z.object({
   phone: z.string(),
   birthDate: z.date(),
   joinDate: z.date(),
-  churchId: z.string(),
 });

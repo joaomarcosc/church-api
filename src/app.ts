@@ -5,7 +5,7 @@ import { appRoutes } from "./http/routes";
 import jwtPlugin from "./plugins/jwt-authenticate";
 
 const app = fastify({
-  logger: env.NODE_ENV === "development",
+  // logger: env.NODE_ENV === "development",
 });
 
 app.register(jwtPlugin);

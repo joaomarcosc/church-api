@@ -6,3 +6,8 @@ export const churchSchema = z.object({
   password: z.string(),
   phone: z.string(),
 });
+
+export const authenticateChurchSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
