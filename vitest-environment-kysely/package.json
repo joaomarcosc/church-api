@@ -1,0 +1,12 @@
+{
+  "name": "vitest-environment-kysely",
+  "version": "1.0.0",
+  "main": "kysely-environment-test.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

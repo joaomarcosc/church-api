@@ -29,7 +29,10 @@ export class ChurchController {
     const { email, password } = authenticateChurchSchema.parse(req.body);
 
     try {
-      const { church } = await makeAuthenticateChurchUseCase().execute({ email, password });
+      const { church } = await makeAuthenticateChurchUseCase().execute({
+        email,
+        password,
+      });
 
       const token = await reply.jwtSign(
         {},

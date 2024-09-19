@@ -9,5 +9,9 @@ export async function appRoutes(app: FastifyInstance) {
   app.post("/church/session", churchController.authenticate);
 
   // Private Routes
-  app.post("/member/create", { preHandler: [app.authenticate] }, memberController.create);
+  app.post(
+    "/member/create",
+    { preHandler: [app.authenticate] },
+    memberController.create,
+  );
 }
