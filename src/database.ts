@@ -4,14 +4,14 @@ import { Pool } from "pg";
 import { env } from "./env";
 
 const pool = new Pool({
-    connectionString: env.DATABASE_URL,
+  connectionString: env.DATABASE_URL,
 });
 
 const dialect = new PostgresDialect({
-    pool,
+  pool,
 });
 
 export const db = new Kysely<DB>({
-    dialect,
-    plugins: [new CamelCasePlugin()],
+  dialect,
+  plugins: [new CamelCasePlugin()],
 });
