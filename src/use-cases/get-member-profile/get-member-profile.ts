@@ -24,7 +24,9 @@ export class GetMemberProfileUseCase {
       throw new ResourceNotFoundError();
     }
 
-    const member = await this.membersRepository.findById({ memberId: data.memberId });
+    const member = await this.membersRepository.findById({
+      memberId: data.memberId,
+    });
 
     if (!member) {
       throw new ResourceNotFoundError();
