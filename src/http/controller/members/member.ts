@@ -1,7 +1,8 @@
-import { createMemberSchema, searchMemberSchema } from "@/schemas/member";
+import { createMemberSchema, getMemberProfileSchema, searchMemberSchema } from "@/schemas/member";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists";
-import { makeSearchManyMembersUseCase } from "@/use-cases/factories/make-get-member-profile";
+import { makeGetMemberProfileUseCase } from "@/use-cases/factories/make-get-member-profile";
 import { makeRegisterMemberUseCase } from "@/use-cases/factories/make-register-member-use-case";
+import { makeSearchManyMembersUseCase } from "@/use-cases/factories/make-search-many-members";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 export class MemberController {
@@ -34,5 +35,17 @@ export class MemberController {
     });
 
     reply.send(members);
+  }
+
+  async getMemberProfile(req: FastifyRequest, reply: FastifyReply) {
+    const { memberId } = getMemberProfileSchema.parse(req.params);
+    const churchId = req.user.sub;
+
+    const { member } = await makeGetMemberProfileUseCase().execute({
+      memberId,
+      churchId,
+    });
+
+    return reply.send(member);
   }
 }

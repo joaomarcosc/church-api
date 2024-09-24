@@ -1,11 +1,11 @@
 import { KyselyChurchRepository } from "@/repositories/kysely/kysely-church-repository";
 import { KyselyMembersRepository } from "@/repositories/kysely/kysely-members-repository";
-import { SearchManyMembersUseCase } from "../search-many-members/search-many-members";
+import { GetMemberProfileUseCase } from "../get-member-profile/get-member-profile";
 
-export function makeSearchManyMembersUseCase() {
+export function makeGetMemberProfileUseCase() {
   const membersRepository = new KyselyMembersRepository();
   const churchRepository = new KyselyChurchRepository();
-  const searchManyMembers = new SearchManyMembersUseCase(membersRepository, churchRepository);
+  const getMemberProfile = new GetMemberProfileUseCase(membersRepository, churchRepository);
 
-  return searchManyMembers;
+  return getMemberProfile;
 }

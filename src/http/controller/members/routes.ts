@@ -8,4 +8,5 @@ export async function memberRoutes(app: FastifyInstance) {
 
   app.post("/member/create", memberController.create);
   app.get("/member/search", memberController.searchManyMembers);
+  app.get("/member/profile/:memberId", memberController.getMemberProfile);
 }
