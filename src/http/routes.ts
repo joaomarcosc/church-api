@@ -1,13 +1,8 @@
 import type { FastifyInstance } from "fastify";
-import { ChurchController } from "./controller/church";
-import { MemberController } from "./controller/member";
+import { churchRoutes } from "./controller/church/routes";
+import { memberRoutes } from "./controller/members/routes";
 
 export async function appRoutes(app: FastifyInstance) {
-  const memberController = new MemberController();
-  const churchController = new ChurchController();
-
-  app.post("/church/session", churchController.authenticate);
-
-  // Private Routes
-  app.post("/member/create", { preHandler: [app.authenticate] }, memberController.create);
+  app.register(churchRoutes);
+  app.register(memberRoutes);
 }

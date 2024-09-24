@@ -6,11 +6,12 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 export class MemberController {
   async create(req: FastifyRequest, reply: FastifyReply) {
     const body = createMemberSchema.parse(req.body);
+    const churchId = req.user.sub;
 
     try {
       const registerUseCase = makeRegisterMemberUseCase();
 
-      await registerUseCase.execute({ ...body, churchId: req.user.sub });
+      await registerUseCase.execute({ ...body, churchId });
     } catch (error) {
       if (error instanceof UserAlreadyExistsError) {
         return reply.status(409).send({ message: error.message });

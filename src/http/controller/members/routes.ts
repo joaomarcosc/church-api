@@ -1,0 +1,10 @@
+import type { FastifyInstance } from "fastify";
+import { MemberController } from "./member";
+
+export async function memberRoutes(app: FastifyInstance) {
+  app.addHook("preHandler", app.authenticate);
+
+  const memberController = new MemberController();
+
+  app.post("/member/create", memberController.create);
+}
