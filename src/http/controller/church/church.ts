@@ -39,6 +39,7 @@ export class ChurchController {
         {
           sign: {
             sub: church.id,
+            expiresIn: "7d",
           },
         },
       );

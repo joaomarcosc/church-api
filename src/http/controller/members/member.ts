@@ -1,5 +1,6 @@
-import { createMemberSchema } from "@/schemas/member";
+import { createMemberSchema, searchMemberSchema } from "@/schemas/member";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists";
+import { makeSearchManyMembersUseCase } from "@/use-cases/factories/make-get-member-profile";
 import { makeRegisterMemberUseCase } from "@/use-cases/factories/make-register-member-use-case";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
@@ -23,10 +24,15 @@ export class MemberController {
     reply.status(201).send({ message: "Member created" });
   }
 
-  // TODO: Criar caso de uso para listar todos os membros
-  // async list(_: FastifyRequest, reply: FastifyReply) {
-  //   const users = await listAllUsersUseCase();
+  async searchManyMembers(req: FastifyRequest, reply: FastifyReply) {
+    const query = searchMemberSchema.parse(req.query);
+    const churchId = req.user.sub;
 
-  //   reply.send({ users });
-  // }
+    const members = await makeSearchManyMembersUseCase().execute({
+      ...query,
+      churchId,
+    });
+
+    reply.send(members);
+  }
 }
