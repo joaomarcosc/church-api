@@ -19,7 +19,7 @@ export class ChurchController {
         return rep.status(409).send({ message: error.message });
       }
 
-      throw error; // TODO: apply error to this case
+      throw error;
     }
 
     rep.status(201).send({ message: "Church created with success" });
@@ -48,7 +48,7 @@ export class ChurchController {
       });
     } catch (err) {
       if (err instanceof InvalidCredentialsError) {
-        return reply.status(400).send({ message: err.message });
+        return reply.status(401).send({ message: err.message });
       }
 
       throw err;
