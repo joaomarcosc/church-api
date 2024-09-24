@@ -7,4 +7,5 @@ export async function memberRoutes(app: FastifyInstance) {
   const memberController = new MemberController();
 
   app.post("/member/create", memberController.create);
+  app.get("/member/search", memberController.searchManyMembers);
 }
