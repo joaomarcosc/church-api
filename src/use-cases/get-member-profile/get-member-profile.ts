@@ -17,7 +17,7 @@ export class GetMemberProfileUseCase {
     private churchRepository: ChurchRepository,
   ) {}
 
-  async axecute(data: GetMemberProfileUseCaseRequest): Promise<GetMemberProfileUseCaseResponse> {
+  async execute(data: GetMemberProfileUseCaseRequest): Promise<GetMemberProfileUseCaseResponse> {
     const church = await this.churchRepository.findById({ id: data.churchId });
 
     if (!church) {

@@ -35,7 +35,7 @@ describe("Get member profile use case", () => {
       churchId: church.id,
     });
 
-    const { member } = await sut.axecute({ memberId: createdMember.id, churchId: createdMember.churchId });
+    const { member } = await sut.execute({ memberId: createdMember.id, churchId: createdMember.churchId });
 
     expect(member.name).toEqual("teste");
   });
@@ -50,7 +50,7 @@ describe("Get member profile use case", () => {
       churchId: church.id,
     });
 
-    expect(sut.axecute({ memberId: "1", churchId: church.id })).rejects.toBeInstanceOf(ResourceNotFoundError);
+    expect(sut.execute({ memberId: "1", churchId: church.id })).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
 
   it("should not be able to get member profile with wrong churchId", async () => {
@@ -63,6 +63,6 @@ describe("Get member profile use case", () => {
       churchId: church.id,
     });
 
-    expect(sut.axecute({ memberId: member.id, churchId: "2" })).rejects.toBeInstanceOf(ResourceNotFoundError);
+    expect(sut.execute({ memberId: member.id, churchId: "2" })).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
 });

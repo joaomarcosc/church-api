@@ -20,3 +20,7 @@ export const searchMemberSchema = z.object({
     message: "perPage must be greater than equal to 1",
   }),
 });
+
+export const getMemberProfileSchema = z.object({
+  memberId: z.string(),
+});
