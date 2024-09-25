@@ -2,7 +2,6 @@ import type { ChurchRepository } from "@/repositories/church-repository";
 import type {} from "@/repositories/member-repository";
 import type { CreateVisitorParams, Visitor, VisitorRepository } from "@/repositories/visitors-repository";
 import { ResourceNotFoundError } from "../errors/resource-not-found";
-import { UserAlreadyExistsError } from "../errors/user-already-exists";
 
 interface RegisterVisitorUseCaseRequest extends CreateVisitorParams {}
 
@@ -16,19 +15,12 @@ export class RegisterVisitorsUseCase {
     private churchRepository: ChurchRepository,
   ) {}
   async execute(data: RegisterVisitorUseCaseRequest): Promise<RegistervisitorsUseCaseResponse> {
-    const hasVisitor = Boolean(await this.visitorsRepository.findByName({ name: data.name }));
-
-    if (hasVisitor) {
-      throw new UserAlreadyExistsError();
-    }
-
     const churchById = await this.churchRepository.findById({ id: data.churchId });
 
     if (!churchById) {
       throw new ResourceNotFoundError();
     }
 
-    // TODO: TORNAR A DATA UM ITEM APENAS E ADICIONAR AO ARRAY JA PRESENTE NO BANCO DE DADOS
     const visitor = await this.visitorsRepository.create(data);
 
     return { visitor };

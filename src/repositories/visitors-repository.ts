@@ -1,7 +1,7 @@
 export interface CreateVisitorParams {
   name: string;
   phone: string;
-  visitDates: Date[];
+  visitDate: Date;
   churchId: string;
 }
 
@@ -20,7 +20,7 @@ export interface Visitor {
   name: string;
   phone: string;
   updatedAt: Date;
-  visitDates: Date[];
+  visitDate: Date;
 }
 
 export interface VisitorRepository {
