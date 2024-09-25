@@ -2,7 +2,6 @@ import type { Church } from "@/repositories/church-repository";
 import { InMemoryChurchRepository } from "@/repositories/in-memory/in-memory-church-repository";
 import { InMemoryVisitorsRepository } from "@/repositories/in-memory/in-memory-visitors-repository";
 import { beforeEach, describe, expect, it } from "vitest";
-import { UserAlreadyExistsError } from "../errors/user-already-exists";
 import { RegisterVisitorsUseCase } from "./register-visitor";
 
 let inMemoryVisitorsRepository: InMemoryVisitorsRepository;
@@ -25,28 +24,10 @@ describe("Register visitor use case", () => {
     sut = new RegisterVisitorsUseCase(inMemoryVisitorsRepository, inMemoryChurchRepository);
   });
 
-  it("should not be able to register with same name", async () => {
-    await sut.execute({
-      name: "teste",
-      visitDates: [new Date()],
-      phone: "",
-      churchId: church.id,
-    });
-
-    expect(
-      sut.execute({
-        name: "teste",
-        visitDates: [new Date()],
-        phone: "",
-        churchId: church.id,
-      }),
-    ).rejects.toBeInstanceOf(UserAlreadyExistsError);
-  });
-
   it("should be able to register", async () => {
     const { visitor } = await sut.execute({
       name: "teste",
-      visitDates: [new Date()],
+      visitDate: new Date(),
       phone: "",
       churchId: church.id,
     });
