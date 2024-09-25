@@ -28,6 +28,7 @@ export class RegisterVisitorsUseCase {
       throw new ResourceNotFoundError();
     }
 
+    // TODO: TORNAR A DATA UM ITEM APENAS E ADICIONAR AO ARRAY JA PRESENTE NO BANCO DE DADOS
     const visitor = await this.visitorsRepository.create(data);
 
     return { visitor };
