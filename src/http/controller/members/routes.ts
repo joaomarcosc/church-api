@@ -1,4 +1,5 @@
-import { createMemberSchema, getMemberProfileSchema, searchMemberSchema } from "@/schemas/member";
+import {} from "@/schemas/errors";
+import { schemaGetMemberProfile, schemaMemberCreate, schemaMemberSearch } from "@/schemas/member";
 import type { FastifyInstance } from "fastify";
 import { MemberController } from "./member";
 
@@ -10,11 +11,7 @@ export async function memberRoutes(app: FastifyInstance) {
   app.post(
     "/member/create",
     {
-      schema: {
-        body: createMemberSchema,
-        security: [{ bearerAuth: [] }],
-        tags: ["Members"],
-      },
+      schema: schemaMemberCreate,
     },
     memberController.create,
   );
@@ -22,11 +19,7 @@ export async function memberRoutes(app: FastifyInstance) {
   app.get(
     "/member/search",
     {
-      schema: {
-        querystring: searchMemberSchema,
-        security: [{ bearerAuth: [] }],
-        tags: ["Members"],
-      },
+      schema: schemaMemberSearch,
     },
     memberController.searchManyMembers,
   );
@@ -34,11 +27,7 @@ export async function memberRoutes(app: FastifyInstance) {
   app.get(
     "/member/profile/:memberId",
     {
-      schema: {
-        params: getMemberProfileSchema,
-        security: [{ bearerAuth: [] }],
-        tags: ["Members"],
-      },
+      schema: schemaGetMemberProfile,
     },
     memberController.getMemberProfile,
   );

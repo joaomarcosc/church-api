@@ -1,4 +1,5 @@
-import { authenticateChurchSchema } from "@/schemas/church";
+import { schemaChurchSession } from "@/schemas/church";
+import {} from "@/schemas/errors";
 import type { FastifyInstance } from "fastify";
 import { ChurchController } from "./church";
 
@@ -8,10 +9,7 @@ export async function churchRoutes(app: FastifyInstance) {
   app.post(
     "/church/session",
     {
-      schema: {
-        body: authenticateChurchSchema,
-        tags: ["Churchs"],
-      },
+      schema: schemaChurchSession,
     },
     churchController.authenticate,
   );
