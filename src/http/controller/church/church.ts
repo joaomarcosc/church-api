@@ -39,14 +39,31 @@ export class ChurchController {
         {
           sign: {
             sub: church.id,
-            expiresIn: "7d",
           },
         },
       );
 
-      return reply.status(200).send({
-        token,
-      });
+      const refreshToken = await reply.jwtSign(
+        {},
+        {
+          sign: {
+            sub: church.id,
+            expiresIn: "5d",
+          },
+        },
+      );
+
+      return reply
+        .status(200)
+        .setCookie("refreshToken", refreshToken, {
+          path: "/",
+          secure: true,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({
+          token,
+        });
     } catch (err) {
       if (err instanceof InvalidCredentialsError) {
         return reply.status(401).send({ message: err.message });

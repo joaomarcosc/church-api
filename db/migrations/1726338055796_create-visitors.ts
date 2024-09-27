@@ -4,7 +4,7 @@ import type { DB } from "kysely-codegen";
 export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable("visitors")
-    .addColumn("id", "uuid", (col) => col.primaryKey())
+    .addColumn("id", "uuid", (col) => col.primaryKey().unique().notNull())
     .addColumn("name", "varchar", (col) => col.notNull())
     .addColumn("phone", "varchar", (col) => col.notNull())
     .addColumn("visitDate", "timestamp", (col) => col.notNull())

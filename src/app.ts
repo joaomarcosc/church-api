@@ -1,3 +1,4 @@
+import fastifyCookie from "@fastify/cookie";
 import fastify from "fastify";
 import { ZodError } from "zod";
 import { env } from "./env";
@@ -8,6 +9,7 @@ const app = fastify({
   // logger: env.NODE_ENV === "development",
 });
 
+app.register(fastifyCookie);
 app.register(jwtPlugin);
 
 app.register(appRoutes, {
