@@ -10,7 +10,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("visitDate", "timestamp", (col) => col.notNull())
     .addColumn("createdAt", "timestamp", (col) => col.defaultTo(sql`now()`).notNull())
     .addColumn("updatedAt", "timestamp", (col) => col.defaultTo(sql`now()`).notNull())
-    .addColumn("churchId", "uuid", (col) => col.unique().references("church.id").onDelete("cascade").notNull())
+    .addColumn("churchId", "uuid", (col) => col.references("church.id").onDelete("cascade").notNull())
     .execute();
 
   await db.schema.createIndex("visitors_church_id_index").on("members").column("churchId").execute();

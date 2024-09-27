@@ -1,4 +1,5 @@
 import { createMemberSchema, getMemberProfileSchema, searchMemberSchema } from "@/schemas/member";
+import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists";
 import { makeGetMemberProfileUseCase } from "@/use-cases/factories/make-get-member-profile";
 import { makeRegisterMemberUseCase } from "@/use-cases/factories/make-register-member-use-case";
@@ -41,11 +42,19 @@ export class MemberController {
     const { memberId } = getMemberProfileSchema.parse(req.params);
     const churchId = req.user.sub;
 
-    const { member } = await makeGetMemberProfileUseCase().execute({
-      memberId,
-      churchId,
-    });
+    try {
+      const { member } = await makeGetMemberProfileUseCase().execute({
+        memberId,
+        churchId,
+      });
 
-    return reply.send(member);
+      return reply.send(member);
+    } catch (error) {
+      if (error instanceof ResourceNotFoundError) {
+        return reply.status(404).send({ message: error.message });
+      }
+
+      throw error;
+    }
   }
 }
