@@ -6,6 +6,13 @@ import { env } from "../env";
 const jwtPlugin: FastifyPluginCallback = (app, _, done) => {
   app.register(fastifyJwt, {
     secret: env.SECRET_KEY,
+    cookie: {
+      cookieName: "refreshToken",
+      signed: false,
+    },
+    sign: {
+      expiresIn: "10m",
+    },
   });
 
   app.decorate("authenticate", async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {

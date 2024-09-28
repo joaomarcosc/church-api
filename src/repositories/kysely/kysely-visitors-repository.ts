@@ -1,5 +1,5 @@
-import { db } from "@/database";
 import { randomUUID } from "node:crypto";
+import { db } from "@/database";
 import type { CreateVisitorParams, FindByIdParams, FindByNameParams, VisitorRepository } from "../visitors-repository";
 
 export class KyselyVisitorsRepository implements VisitorRepository {

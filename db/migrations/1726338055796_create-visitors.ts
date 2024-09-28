@@ -4,13 +4,13 @@ import type { DB } from "kysely-codegen";
 export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable("visitors")
-    .addColumn("id", "uuid", (col) => col.primaryKey())
+    .addColumn("id", "uuid", (col) => col.primaryKey().unique().notNull())
     .addColumn("name", "varchar", (col) => col.notNull())
     .addColumn("phone", "varchar", (col) => col.notNull())
     .addColumn("visitDate", "timestamp", (col) => col.notNull())
     .addColumn("createdAt", "timestamp", (col) => col.defaultTo(sql`now()`).notNull())
     .addColumn("updatedAt", "timestamp", (col) => col.defaultTo(sql`now()`).notNull())
-    .addColumn("churchId", "uuid", (col) => col.unique().references("church.id").onDelete("cascade").notNull())
+    .addColumn("churchId", "uuid", (col) => col.references("church.id").onDelete("cascade").notNull())
     .execute();
 
   await db.schema.createIndex("visitors_church_id_index").on("members").column("churchId").execute();

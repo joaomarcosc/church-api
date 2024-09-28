@@ -1,3 +1,6 @@
+import fastifyCookie from "@fastify/cookie";
+import fastifyFormbody from "@fastify/formbody";
+import fastifyMultipart from "@fastify/multipart";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastify from "fastify";
@@ -19,6 +22,9 @@ const app = fastify({
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+app.register(fastifyFormbody);
+app.register(fastifyMultipart);
+app.register(fastifyCookie);
 app.register(jwtPlugin);
 
 app.register(fastifySwagger, {
