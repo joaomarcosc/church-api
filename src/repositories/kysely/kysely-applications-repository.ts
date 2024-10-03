@@ -1,5 +1,5 @@
 import { db } from "@/database";
-import type { CreateApplicationInput } from "@/schemas/applications";
+import type { CreateApplicationInput, UpdateApplicationInput } from "@/schemas/applications";
 import type { ApplicationsRepository } from "../applications-repository";
 
 export class KyselyApplicationsRepository implements ApplicationsRepository {
@@ -14,6 +14,29 @@ export class KyselyApplicationsRepository implements ApplicationsRepository {
   }
   async create(data: Omit<CreateApplicationInput, "confirm_password">) {
     const application = await db.insertInto("applications").values(data).returningAll().executeTakeFirst();
+
+    return application;
+  }
+
+  async update(data: UpdateApplicationInput) {
+    const { id, ...body } = data;
+
+    const application = await db
+      .updateTable("applications")
+      .set(body)
+      .where("applications.id", "=", id)
+      .returningAll()
+      .executeTakeFirst();
+
+    return application;
+  }
+
+  async findById(id: string) {
+    const application = await db
+      .selectFrom("applications")
+      .where("applications.id", "=", id)
+      .selectAll()
+      .executeTakeFirst();
 
     return application;
   }
