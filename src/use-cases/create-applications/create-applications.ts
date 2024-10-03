@@ -14,14 +14,14 @@ export class CreateApplicationsUseCase {
   constructor(private applicationsRepository: ApplicationsRepository) {}
 
   async execute(data: CreateApplicationInput): Promise<CreateApplicationUseCaseResponse> {
-    const { confirm_password, ...rest } = data;
+    const { confirmPassword, ...rest } = data;
     const hasApplication = await this.applicationsRepository.findByEmail(rest.email);
 
     if (hasApplication) {
       throw new ResourceAlreadyExists("Application");
     }
 
-    if (confirm_password !== rest.password) {
+    if (confirmPassword !== rest.password) {
       throw new PasswordDoNotMatchError();
     }
 

@@ -17,13 +17,13 @@ export const applicationCreateSchema = z
         required_error: "password is required",
       })
       .min(6, "password must be at least 6 characters"),
-    confirm_password: z
+    confirmPassword: z
       .string({
         required_error: "confirm password is required",
       })
       .min(6, "password must be at least 6 characters"),
   })
-  .refine((data) => data.password === data.confirm_password, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "confirm does not match with password",
     path: ["confirm_password"],
   });
@@ -33,9 +33,9 @@ export const applicationUpdateBodySchema = z
     name: z.string().optional(),
     email: z.string().email("invalid email format").optional(),
     password: z.string().min(6, "password must be at least 6 characters").optional(),
-    confirm_password: z.string().min(6, "password must be at least 6 characters").optional(),
+    confirmPassword: z.string().min(6, "password must be at least 6 characters").optional(),
   })
-  .refine((data) => data.password === data.confirm_password, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "confirm does not match with password",
     path: ["confirm_password"],
   });
@@ -71,6 +71,8 @@ export type LoginApplicationInput = z.infer<typeof applicationLoginSchema>;
 
 // update
 export type UpdateApplicationInput = z.infer<typeof applicationUpdateSchema>;
+export type UpdateBodyApplicationInput = z.infer<typeof applicationUpdateBodySchema>;
+export type UpdateParamsApplicationInput = z.infer<typeof applicationUpdateParamsSchema>;
 
 export const applicationCreateJsonSchema = {
   body: zodToJsonSchema(applicationCreateSchema),

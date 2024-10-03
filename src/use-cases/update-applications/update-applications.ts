@@ -14,7 +14,7 @@ export class UpdateApplicationsUseCase {
   constructor(private applicationsRepository: ApplicationsRepository) {}
 
   async execute(data: UpdateApplicationInput): Promise<UpdateApplicationUseCaseResponse> {
-    const { password, confirm_password, ...rest } = data;
+    const { password, confirmPassword, ...rest } = data;
     let hashedPassword: string | undefined;
 
     const hasApplication = await this.applicationsRepository.findById(rest.id);
@@ -24,7 +24,7 @@ export class UpdateApplicationsUseCase {
     }
 
     if (password) {
-      if (password !== confirm_password) {
+      if (password !== confirmPassword) {
         throw new PasswordDoNotMatchError();
       }
 
