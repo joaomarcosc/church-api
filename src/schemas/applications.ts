@@ -28,6 +28,28 @@ export const applicationCreateSchema = z
     path: ["confirm_password"],
   });
 
+export const applicationUpdateBodySchema = z
+  .object({
+    name: z.string().optional(),
+    email: z.string().email("invalid email format").optional(),
+    password: z.string().min(6, "password must be at least 6 characters").optional(),
+    confirm_password: z.string().min(6, "password must be at least 6 characters").optional(),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "confirm does not match with password",
+    path: ["confirm_password"],
+  });
+
+const applicationUpdateParamsSchema = z.object({
+  id: z
+    .string({
+      required_error: "id is required",
+    })
+    .min(1, { message: "id is required" }),
+});
+
+const applicationUpdateSchema = z.intersection(applicationUpdateBodySchema, applicationUpdateParamsSchema);
+
 export const applicationLoginSchema = z.object({
   email: z
     .string({
@@ -41,8 +63,14 @@ export const applicationLoginSchema = z.object({
     .min(6, "password must be at least 6 characters"),
 });
 
+// create
 export type CreateApplicationInput = z.infer<typeof applicationCreateSchema>;
+
+// authenticate
 export type LoginApplicationInput = z.infer<typeof applicationLoginSchema>;
+
+// update
+export type UpdateApplicationInput = z.infer<typeof applicationUpdateSchema>;
 
 export const applicationCreateJsonSchema = {
   body: zodToJsonSchema(applicationCreateSchema),
@@ -51,5 +79,11 @@ export const applicationCreateJsonSchema = {
 
 export const applicationLoginJsonSchema = {
   body: zodToJsonSchema(applicationLoginSchema),
+  tags: swaggerTagsGroups.applications,
+};
+
+export const applicationUpdateJsonSchema = {
+  body: zodToJsonSchema(applicationUpdateSchema),
+  params: zodToJsonSchema(applicationUpdateParamsSchema),
   tags: swaggerTagsGroups.applications,
 };

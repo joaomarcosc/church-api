@@ -35,7 +35,7 @@ describe("Create Application Use Case", () => {
 
     const doesPasswordHashed = await compare("teste12345", application?.password ?? "");
 
-    expect(doesPasswordHashed).toBe(true);
+    expect(doesPasswordHashed).toBeTruthy();
   });
 
   it("Should not be able to create an application with same email address", async () => {
