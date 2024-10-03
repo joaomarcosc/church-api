@@ -4,23 +4,13 @@ import fastifyMultipart from "@fastify/multipart";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastify from "fastify";
-import {
-  type ZodTypeProvider,
-  jsonSchemaTransform,
-  serializerCompiler,
-  validatorCompiler,
-} from "fastify-type-provider-zod";
-import { ZodError } from "zod";
 import { env } from "./env";
 import { appRoutes } from "./http/routes";
 import jwtPlugin from "./plugins/jwt-authenticate";
 
 const app = fastify({
   logger: env.NODE_ENV === "development",
-}).withTypeProvider<ZodTypeProvider>();
-
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
+});
 
 app.register(fastifyFormbody);
 app.register(fastifyMultipart);
@@ -41,9 +31,14 @@ app.register(fastifySwagger, {
         name: "Authorization",
         description: "Enter your bearer token in the format **Bearer &lt;token&gt;**",
       },
+      cookieAuth: {
+        type: "apiKey",
+        in: "cookie",
+        name: "refreshToken",
+        description: "Enter your refreshToken cookie.",
+      },
     },
   },
-  transform: jsonSchemaTransform,
 });
 
 app.register(fastifySwaggerUi, {
@@ -55,17 +50,13 @@ app.register(appRoutes, {
 });
 
 app.setErrorHandler((error, _, reply) => {
-  if (error instanceof ZodError) {
-    return reply.status(400).send({ message: "Validation error", issues: error.format() });
-  }
-
   if (env.NODE_ENV !== "production") {
-    console.error(error);
+    console.error(error.stack);
   } else {
     // TODO: Should log to an external tool like DataDog/Sentry/NewRelic...
   }
 
-  return reply.status(500).send({ message: "Internal server error" });
+  return reply.status(error.statusCode ?? 500).send({ message: error.message });
 });
 
 export { app };
