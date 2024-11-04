@@ -45,7 +45,7 @@ describe("Update Application use case", () => {
     const { application: updatedApplication } = await sut.execute({
       id: application.id,
       password: "teste",
-      confirm_password: "teste",
+      confirmPassword: "teste",
     });
 
     const doesPasswordMatch = await compare("teste", updatedApplication?.password ?? "");
@@ -53,12 +53,12 @@ describe("Update Application use case", () => {
     expect(doesPasswordMatch).toBeTruthy();
   });
 
-  it("should not be can update password when doesnt match with confirm_password", async () => {
+  it("should not be can update password when doesnt match with confirmPassword", async () => {
     expect(
       sut.execute({
         id: application.id,
         password: "teste",
-        confirm_password: "teste2",
+        confirmPassword: "teste2",
       }),
     ).rejects.toBeInstanceOf(PasswordDoNotMatchError);
   });
@@ -68,7 +68,7 @@ describe("Update Application use case", () => {
       sut.execute({
         id: "incorrect-id",
         password: "teste",
-        confirm_password: "teste2",
+        confirmPassword: "teste2",
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });

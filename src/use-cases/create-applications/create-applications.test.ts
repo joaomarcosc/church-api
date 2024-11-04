@@ -19,7 +19,7 @@ describe("Create Application Use Case", () => {
       name: "teste",
       email: "test@teste.com",
       password: "teste12345",
-      confirm_password: "teste12345",
+      confirmPassword: "teste12345",
     });
 
     expect(application?.id).toEqual(expect.any(String));
@@ -30,7 +30,7 @@ describe("Create Application Use Case", () => {
       name: "teste",
       email: "test@teste.com",
       password: "teste12345",
-      confirm_password: "teste12345",
+      confirmPassword: "teste12345",
     });
 
     const doesPasswordHashed = await compare("teste12345", application?.password ?? "");
@@ -43,7 +43,7 @@ describe("Create Application Use Case", () => {
       name: "teste",
       email: "test@teste.com",
       password: "teste12345",
-      confirm_password: "teste12345",
+      confirmPassword: "teste12345",
     });
 
     expect(
@@ -51,7 +51,7 @@ describe("Create Application Use Case", () => {
         name: "teste",
         email: "test@teste.com",
         password: "teste12345",
-        confirm_password: "teste12345",
+        confirmPassword: "teste12345",
       }),
     ).rejects.toBeInstanceOf(ResourceAlreadyExists);
   });

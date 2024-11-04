@@ -12,7 +12,7 @@ export class KyselyApplicationsRepository implements ApplicationsRepository {
 
     return application;
   }
-  async create(data: Omit<CreateApplicationInput, "confirm_password">) {
+  async create(data: Omit<CreateApplicationInput, "confirmPassword">) {
     const application = await db.insertInto("applications").values(data).returningAll().executeTakeFirst();
 
     return application;

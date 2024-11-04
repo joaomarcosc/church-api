@@ -7,7 +7,7 @@ import type { ApplicationsRepository } from "../applications-repository";
 export class InMemoryApplicationsRepository implements ApplicationsRepository {
   applications: Selectable<Applications>[] = [];
 
-  async create(data: Omit<CreateApplicationInput, "confirm_password">) {
+  async create(data: Omit<CreateApplicationInput, "confirmPassword">) {
     const application: Selectable<Applications> = {
       createdAt: new Date(),
       updatedAt: new Date(),

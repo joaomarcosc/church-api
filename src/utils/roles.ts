@@ -1,31 +1,32 @@
-export const ALL_PERMISSIONS = [
-  // members
-  "members:roles:write",
-  "members:roles:delete",
-  "members:roles:update",
-  "members:roles:read",
+import { AbilityBuilder, type AbilityClass, type ExtractSubjectType, PureAbility, type Subject } from "@casl/ability";
+import type { Users } from "kysely-codegen";
 
-  // visitors
-  "visitors:roles:write",
-  "visitors:roles:delete",
-  "visitors:roles:update",
-  "visitors:roles:read",
+export enum Action {
+  Manage = "manage",
+  Create = "create",
+  Read = "read",
+  Update = "update",
+  Delete = "delete",
+}
 
-  //roles
-  "role:write",
-];
+// TODO: create custom objects based on models
+// export type Subjects = InferSubjects<keyof User> | "all";
+export type AppAbility = PureAbility<[Action, Subject]>;
 
-export const PERMISSIONS = ALL_PERMISSIONS.reduce(
-  (acc, current) => {
-    acc[current] = current;
-    return acc;
-  },
-  {} as Record<(typeof ALL_PERMISSIONS)[number], (typeof ALL_PERMISSIONS)[number]>,
-);
+const Ability = PureAbility as AbilityClass<AppAbility>;
 
-export const USER_ROLE_PERMISSION = [PERMISSIONS["members:read"], PERMISSIONS["visitors:read"]];
+export const defineAbility = (user: Users) => {
+  const { can, build } = new AbilityBuilder(Ability);
 
-export const SYSTEM_ROLE = {
-  SUPER_ADMIN: "SUPER_ADMIN",
-  APPLICATION_USER: "APPLICATION_USER",
+  if (user.role === "ADMIN") {
+    can(Action.Manage, "all");
+  }
+
+  if (user.role === "COMMON_USER") {
+    can(Action.Read, "all");
+  }
+
+  return build({
+    detectSubjectType: (item) => item.constructor as ExtractSubjectType<Subject>,
+  });
 };
