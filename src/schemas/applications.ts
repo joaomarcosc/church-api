@@ -74,6 +74,7 @@ export type UpdateApplicationInput = z.infer<typeof applicationUpdateSchema>;
 export type UpdateBodyApplicationInput = z.infer<typeof applicationUpdateBodySchema>;
 export type UpdateParamsApplicationInput = z.infer<typeof applicationUpdateParamsSchema>;
 
+// Schemas
 export const applicationCreateJsonSchema = {
   body: zodToJsonSchema(applicationCreateSchema),
   tags: swaggerTagsGroups.applications,
