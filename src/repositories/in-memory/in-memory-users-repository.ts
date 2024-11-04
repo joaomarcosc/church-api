@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import type { CreateUserInput } from "@/schemas/users";
 import type { Selectable } from "kysely";
-import type { Users } from "kysely-codegen";
+import type { Rolestype, Users } from "kysely-codegen";
 import type { UsersRepository } from "../users-repository";
 
 export class InMemoryUsersRepository implements UsersRepository {
@@ -22,6 +22,12 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async findByEmail(data: string): Promise<Selectable<Users> | undefined> {
     const user = this.users.find((user) => user.email === data);
+
+    return user;
+  }
+
+  async findUserByRoleAndApplication(role: Rolestype, app: string): Promise<Selectable<Users> | undefined> {
+    const user = this.users.find((user) => user.role === role && user.applicationId === app);
 
     return user;
   }

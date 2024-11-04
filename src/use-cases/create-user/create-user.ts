@@ -15,9 +15,17 @@ export class CreateUserUseCase {
 
   async execute(data: CreateUserInput): Promise<CreateUserUseCaseResponse> {
     const { confirmPassword, ...rest } = data;
-    const hasApplication = await this.userRepository.findByEmail(rest.email);
+    const hasUser = await this.userRepository.findByEmail(rest.email);
 
-    if (hasApplication) {
+    if (rest.role === "ADMIN") {
+      const hasAdmin = await this.userRepository.findUserByRoleAndApplication(rest.role, rest.applicationId);
+
+      if (hasAdmin) {
+        throw new ResourceAlreadyExists();
+      }
+    }
+
+    if (hasUser) {
       throw new ResourceAlreadyExists();
     }
 

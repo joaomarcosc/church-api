@@ -47,4 +47,10 @@ describe("Create User Use Case", () => {
 
     expect(sut.execute(mockedUser)).rejects.toBeInstanceOf(ResourceAlreadyExists);
   });
+
+  it("Should not be able to create an user with ADMIN role in same application", async () => {
+    await sut.execute(mockedUser);
+
+    expect(sut.execute(mockedUser)).rejects.toBeInstanceOf(ResourceAlreadyExists);
+  });
 });
